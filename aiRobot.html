@@ -14,10 +14,42 @@
     background-size: 21px 21px;
 }
 
+.tg .robot1{
+    background-image: url("robot.png");
+    background-size: 21px 21px;
+    background-color: purple;
+}
+
+.tg .robot2{
+    background-image: url("robot.png");
+    background-size: 21px 21px;
+    background-color: orange;
+}
+.tg .off{
+    background-color: gray;
+}
+.tg .obs {
+    background-color: black;
+}
+.tg .del {
+    background-color: purple;
+}
+
+.tg .clear{
+    background-color: white;
+}
+
 </style>
 
+<button onclick="priority()">Priority, delivering/returning</button>
 
+<button onclick="norobotObs()">Non-Robot Obstacle</button>
 
+<button onclick="nextPathObs()">Obstacle on next path</button>
+
+<button onclick="twoObs()">Two Obsticles</button>
+
+<br></br>
 
 <table class="tg" id="myTable">
   <tr>
@@ -442,62 +474,247 @@
   </tr>
 </table>
 
-
-
+<h5 style="color:red">Pickup Counters</h5>
+<h5 style="color:purple">Delivery Locations</h5>
+<h5 style="color:gray">Obstructed Paths</h5>
+<h5 style="color:black">Obstacles</h5>
 
 <script type="text/javascript">
-    function moveRobot(row1,col1,row2,col2,i)
+    function moveRobot(row1,col1,row2,col2,i,c)
     {
+        var robotColor;
+        if(c==0)
+            robotColor='obs';
+        else if(c==1)
+            robotColor='robot1';
+        else if(c==2)
+            robotColor='robot2';
+        else if(c==5)
+            robotColor='del';
+        else if(c==6)
+            robotColor='clear';
+        else if(c==7)
+            robotColor='off';
+        else
+            robotColor='robot';
+
         setTimeout(function() { 
             var robot = document.getElementById("myTable").rows[row1].cells[col1];
-            robot.classList.remove('robot');
+            robot.classList.remove(robotColor);
 
             var robotnew= document.getElementById("myTable").rows[row2].cells[col2];
-            robotnew.classList.add('robot');
+            robotnew.classList.add(robotColor);
 
         },i*500)
     }
-
-    moveRobot(0,0,2,1,0);
-
-
-    for(var i = 1; i<22; ++i)
+    
+    function clear(row1,col1,i) 
     {
-        if(i<6)
-        {
-            moveRobot(2,i,2,i+1,i);
-        }
-        else if(i>=6 && i<12)
-        {
-            moveRobot(i-5,6,i-4,6,i);
-        }
-        else if(i>=12 && i<18)
-        {
-            var c = 6
-            moveRobot(7,c,7,c-1,i);
-            c--;
-        }
-        else if(i>=18 && i<22)
-        {
-            var c = i-1;
-            for(var j = 7; j>2; --j)
-            {
-                moveRobot(j,1,j-1,1,c);
-                c++;
-            }
-        }
+         setTimeout(function() { 
+            var robot = document.getElementById("myTable").rows[row1].cells[col1];
+            robot.classList.remove(robotColor);
+        },i*500)
     }
 
-    moveRobot(0,0,12,1,0);
-    for(var i = 1; i<17; ++i)
+    function priority()
     {
-        moveRobot(12,i,12,i+1,i);
+        moveRobot(0,0,11,5,0,5);
+        moveRobot(0,0,6,14,0,5);
+        moveRobot(11,5,-1,-1,20,5);
+        moveRobot(6,14,-1,-1,20,5);
+
+        moveRobot(0,0,1,1,0,1);
+        moveRobot(1,1,1,2,1,1);
+        moveRobot(1,2,1,3,2,1);
+        moveRobot(1,3,1,4,3,1);
+        moveRobot(1,4,1,5,4,1);
+        moveRobot(1,5,1,6,5,1);
+        moveRobot(1,6,2,6,7,1);
+        moveRobot(2,6,3,6,8,1);
+        moveRobot(3,6,4,6,9,1);
+        moveRobot(4,6,5,6,10,1);
+        moveRobot(5,6,6,6,11,1);
+        moveRobot(6,6,7,6,12,1);
+        moveRobot(7,6,8,6,13,1);
+        moveRobot(8,6,9,6,14,1);
+        moveRobot(9,6,10,6,15,1);
+        moveRobot(10,6,11,6,16,1);
+
+        moveRobot(11,6,-1,-1,20,1);
+
+        moveRobot(0,0,7,17,0,2);
+        moveRobot(7,17,7,16,1,2);
+        moveRobot(7,16,7,15,2,2);
+        moveRobot(7,15,7,14,3,2);
+        moveRobot(7,14,7,13,5,2);
+        moveRobot(7,13,7,12,6,2);
+        moveRobot(7,12,7,11,7,2);
+        moveRobot(7,11,7,10,8,2);
+        moveRobot(7,10,7,9,9,2);
+        moveRobot(7,9,7,8,10,2);
+        moveRobot(7,8,7,7,11,2);
+        moveRobot(7,7,7,6,13,2);
+        moveRobot(7,6,7,5,14,2);
+        moveRobot(7,5,7,4,15,2);
+        moveRobot(7,4,7,3,16,2);
+
+        moveRobot(7,3,-1,-1,20,2);
+
+        
     }
 
-    moveRobot(0,0,2,6,0);
-    for(var j = 2; j<17; ++j)
+    function norobotObs()
     {
-        moveRobot(j,6,j+1,6,j);
+        moveRobot(0,0,6,2,0,5);
+        moveRobot(6,2,-1,-1,18,5);
+        
+
+        moveRobot(0,0,1,1,0,1);
+        moveRobot(1,1,1,2,1,1);
+        moveRobot(1,2,1,3,2,1);
+        moveRobot(1,3,1,4,3,1);
+        moveRobot(1,4,1,5,4,1);
+        moveRobot(1,5,1,6,5,1);
+        moveRobot(1,6,2,6,7,1);
+        moveRobot(2,6,3,6,8,1);
+        moveRobot(3,6,4,6,9,1);
+        moveRobot(4,6,5,6,10,1);
+        moveRobot(5,6,6,6,11,1);
+        moveRobot(6,6,7,6,12,1);
+        moveRobot(7,6,7,5,13,1);
+        moveRobot(7,5,7,4,14,1);
+
+        moveRobot(7,4,-1,-1,18,1);
+       
+        moveRobot(6,3,6,3,0,0);
+        moveRobot(7,3,7,3,0,0);
+
+        moveRobot(7,3,-1,-1,18,0);
+        moveRobot(6,3,-1,-1,18,0);
+    }
+
+    function nextPathObs() 
+    {
+        moveRobot(0,0,6,2,0,5);
+        moveRobot(6,2,-1,-1,42,5);
+
+        moveRobot(0,0,1,1,0,1);
+        moveRobot(1,1,1,2,1,1);
+        moveRobot(1,2,1,3,2,1);
+        moveRobot(1,3,1,4,3,1);
+        moveRobot(1,4,1,5,4,1);
+        moveRobot(1,5,1,6,5,1);
+        moveRobot(1,6,2,6,7,1);
+        moveRobot(2,6,3,6,8,1);
+        moveRobot(3,6,4,6,9,1);
+        moveRobot(4,6,5,6,10,1);
+        moveRobot(5,6,6,6,11,1);
+        moveRobot(6,6,7,6,12,1);
+        moveRobot(7,6,8,6,13,1);
+        moveRobot(8,6,9,6,14,1);
+        moveRobot(9,6,10,6,15,1);
+        moveRobot(10,6,11,6,16,1);
+        moveRobot(11,6,12,6,17,1);
+        moveRobot(12,6,13,6,18,1);
+        moveRobot(13,6,14,6,19,1);
+        moveRobot(14,6,15,6,20,1);
+        moveRobot(15,6,16,6,21,1);
+        moveRobot(16,6,17,6,22,1);
+        moveRobot(17,6,17,5,23,1);
+        moveRobot(17,5,17,4,24,1);
+        moveRobot(17,4,17,3,25,1);
+        moveRobot(17,3,17,2,26,1);
+        moveRobot(17,2,17,1,27,1);
+        moveRobot(17,1,16,1,28,1);
+        moveRobot(16,1,15,1,29,1);
+        moveRobot(15,1,14,1,30,1);
+        moveRobot(14,1,13,1,31,1);
+        moveRobot(13,1,12,1,32,1);
+        moveRobot(12,1,11,1,33,1);
+        moveRobot(11,1,10,1,34,1);
+        moveRobot(10,1,9,1,35,1);
+        moveRobot(9,1,8,1,36,1);
+        moveRobot(8,1,7,1,37,1);
+        moveRobot(7,1,7,2,38,1);
+
+        moveRobot(7,2,-1,-1,42,1);
+
+        moveRobot(6,3,6,3,0,0);
+        moveRobot(7,3,7,3,0,0);
+
+        moveRobot(7,3,-1,-1,42,0);
+        moveRobot(6,3,-1,-1,42,0);
+
+    }
+
+    function twoObs()
+    {
+
+        moveRobot(0,0,11,4,0,5);
+        moveRobot(11,4,-1,-1,45,5);
+
+        moveRobot(11,9,11,9,0,0);
+        moveRobot(12,9,12,9,0,0);
+        moveRobot(13,6,13,6,0,0);
+        moveRobot(13,5,13,5,0,0);
+
+        moveRobot(11,9,-1,-1,45,0);
+        moveRobot(12,9,-1,-1,45,0);
+        moveRobot(13,6,-1,-1,45,0);
+        moveRobot(13,5,-1,-1,45,0);
+        
+        moveRobot(18,13,18,12,1,1);
+        moveRobot(18,12,18,11,2,1);
+        moveRobot(18,11,17,11,6,1);
+        moveRobot(17,11,17,10,7,1);
+        moveRobot(17,10,17,9,8,1);
+        moveRobot(17,9,17,8,9,1);
+        moveRobot(17,8,17,7,10,1);
+        moveRobot(17,7,17,6,11,1);
+        moveRobot(17,6,17,5,12,1);
+        moveRobot(17,5,17,4,13,1);
+        moveRobot(17,4,17,3,14,1);
+        moveRobot(17,3,17,2,15,1);
+        moveRobot(17,2,17,1,16,1);
+        moveRobot(17,1,16,1,17,1);
+        moveRobot(16,1,15,1,18,1);
+        moveRobot(15,1,14,1,19,1);
+        moveRobot(14,1,13,1,20,1);
+        moveRobot(13,1,12,1,21,1);
+        moveRobot(12,1,12,2,22,1);
+        moveRobot(12,2,12,3,23,1);
+        moveRobot(12,3,12,4,24,1);
+        moveRobot(12,4,12,5,27,1);
+        moveRobot(12,5,12,6,28,1);
+        moveRobot(12,6,12,7,30,1);
+        moveRobot(12,7,12,8,31,1);
+        moveRobot(12,8,12,7,33,1);
+        moveRobot(12,7,12,6,34,1);
+        moveRobot(12,6,12,5,35,1);
+        moveRobot(12,5,12,4,36,1);
+        moveRobot(12,4,12,3,37,1);
+        moveRobot(12,3,12,2,38,1);
+        moveRobot(12,2,12,1,39,1);
+        moveRobot(12,1,11,1,40,1);
+
+        moveRobot(11,1,-1,-1,45,1);
+
+        moveRobot(0,0,8,6,33,7);
+        moveRobot(8,6,-1,-1,45,7);
+        moveRobot(0,0,9,6,33,7);
+        moveRobot(9,6,-1,-1,45,7);
+        moveRobot(0,0,10,6,33,7);
+        moveRobot(10,6,-1,-1,45,7);
+        moveRobot(0,0,11,6,33,7);
+        moveRobot(11,6,-1,-1,45,7);
+        moveRobot(0,0,12,5,36,7);
+        moveRobot(12,5,-1,-1,45,7);
+        moveRobot(0,0,12,4,37,7);
+        moveRobot(12,4,-1,-1,45,7);
+        moveRobot(0,0,12,3,38,7);
+        moveRobot(12,3,-1,-1,45,7);
+        moveRobot(0,0,12,2,39,7);
+        moveRobot(12,2,-1,-1,45,7);
     }
     
 </script>
