@@ -39,6 +39,12 @@
     background-color: white;
 }
 
+p {
+    width: 50%;
+    float: right;
+    padding-right: 2em;
+}
+
 </style>
 
 <button onclick="priority()">Priority, delivering/returning</button>
@@ -48,6 +54,24 @@
 <button onclick="nextPathObs()">Obstacle on next path</button>
 
 <button onclick="twoObs()">Two Obsticles</button>
+
+<br></br>
+
+<p>
+In the first case, Priority, delivering/returning, the orange and purple robot both have deliveries, at the intersection the orange robot has already delivered and is now returning, while the purple robot is delivering, showing the robot of higher priority getting right of way at an intersection.
+
+<br></br>
+
+In the second case, we place a non-robot obstacle, as the robot tries to deliver it encouters the obstacle and will send a the central system a notification of an obstcale at the location and the central system will reroute the robot. 
+
+<br></br>
+
+In the third case, the central system already knows about the obstacle on the robots path, so the obstacle can be avoided completely and the robot will be routed around. 
+
+<br></br>
+
+In the last case, there are two non-robot obstacles, the robot makes a delivery and on returning cannot exit the intersection, so the two entraces to that node are temporarly removed and all robots paths are recalculated and the edges are replaced.
+ </p>
 
 <br></br>
 
@@ -473,6 +497,7 @@
     <td class="black"></td>
   </tr>
 </table>
+
 
 <h5 style="color:red">Pickup Counters</h5>
 <h5 style="color:purple">Delivery Locations</h5>
